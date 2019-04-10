@@ -2,7 +2,7 @@
             "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html>
 <head>
-<title>uMovies :: Admin</title>
+<title>uMovies :: Administration</title>
 <style type="text/css">
 @import url(uMovies.css);
 </style>
@@ -25,11 +25,26 @@ Welcome to <em>uMovies</em>, your destination for information on <a href="movies
 
 <h2>Administrator Access</h2>
 <p>
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
+    <form autocomplete="off" name = "form" action="adminMenu.php" method="post" onsubmit="return passCheck()">
+      <table border = "0" cellpadding="1">
+        <tr><td><b>Password</b></td>
+          <td><input autocomplete="off" type = "password" name="pass"/></td>
+          <td><input type ="submit" value= "Login" /></td>
+        </tr>
+      </table>
+    </form>
 
-    <button type="submit">Login</button>
  </p>
+ <script>
+function passCheck() {
+  var pass = document.forms["form"]["pass"].value;
+  if (pass == "") {
+    alert("The password cannot be empty");
+    return false;
+  }
+  return true;
+}
+ </script>
 
 <p><copyright>Roberto A. Flores &copy; 2019</copyright></p>
 </div>
