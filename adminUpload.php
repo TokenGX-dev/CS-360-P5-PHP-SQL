@@ -48,6 +48,45 @@ if ($moviesdb->connect_errno) {
 else {
   echo '<h2 id="header">Administrator Access</h2>';
   echo '<h3>Uploading Data File</h3>';
+  $okay = true;
+  if($_FILES[ 'uploaded' ][ 'error' ] > 0){
+    echo 'A problem was detected:<br/>';
+    switch ($_FILES[ 'uploaded' ][ 'error' ]) {
+      case 1: echo '* File exceeded maximum size allowed by server.<br/>';      break;
+      case 2: echo '* File exceeded maximum size allowed by application.<br/>'; break;
+      case 3: echo '* File could not be fully uploaded.<br/>';                  break;
+      case 4: echo '* File was not uplaoded.<br/>';
+    }
+    $okay = false;
+  }
+  if($okay && $_FILES[ 'uploaded' ][ 'type' ] != 'text/plain'){
+    echo 'A problem was detected:<br/>';
+    echo '* File is not a text file.<br/>';
+    $okay = false;
+  }
+  $filename = 'file.txt';
+  if($okay){
+    if(is_uploaded_file($_FILES[ 'uploaded' ][ 'tmp_name' ])){
+      if(!move_uploaded_file($_FILES[ 'uploaded' ][ 'tmp_name' ], $filename)){
+        echo 'A problem was detected:</br>';
+        echo '* Could not copy file to final destination.<br/>';
+        $okay = false;
+      }
+    }
+    else {
+      echo 'A problem was detected:<br/>';
+      echo '* File to copy is not an uploaded file.<br/>';
+      $okay = false;
+    }
+    if($okay){
+      echo 'File uploaded successfully.';
+      $file = fopen($filename, 'r');
+      $fileContents = nl2br(fread($file, filesize($filename)));
+      fclose($file);
+      $
+
+    }
+  }
 }
 ?>
 </p>
