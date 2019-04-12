@@ -28,7 +28,7 @@ Welcome to <em>uMovies</em>, your destination for information on
 
 <p>
 <?php
-@$moviesdb = new mysqli('localhost','uMoviesUser','anonymous','umovies');
+@$moviesdb = new mysqli('localhost','uMoviesUser','anonymous','uMovies');
 @$moviesdb->set_charset("utf8");
 
 if ($moviesdb->connect_errno) {

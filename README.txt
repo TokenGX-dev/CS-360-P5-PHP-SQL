@@ -32,7 +32,19 @@ Files Specifics
  - director (NEEDS TO BE MADE)
 	- PHP file that proves information about a specific director
 	- Should display name and list movies directed
- - admin (NEEDS WORK)
-	- HTML file that handles the password verification (TODO)
+ - admin (DONE)
+	- HTML file that handles the password verification
 	- Either admits to Administrator Menu or says "Incorrect Password"
 	- Must also display message if no password is indicated
+ - adminMenu (NEEDS WORK)
+	- PHP file that handles the Admin Menu
+	- Gives option to upload file or delete all information
+	- Passes upload data to adminUpload
+	- Passes data deletion to adminDelete (TODO)
+ - adminUpload (NEEDS WORK)
+	- PHP file that handles data upload
+	- Displays the data uploaded
+	- Option to return to Admin Menu
+ - adminDelete (NEEDS TO BE MADE)
+	- PHP file that handles data deletion
+	- Option to return to Admin Menu
