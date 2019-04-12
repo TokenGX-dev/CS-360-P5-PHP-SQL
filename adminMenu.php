@@ -7,8 +7,23 @@
 @import url(uMovies.css);
 </style>
 </head>
-<body>
 
+<?php
+if (!session_start()) {
+  die("Could not start session");
+}
+if (!isset($_POST['pass'])) {
+  die("pass not received");
+} else {
+  $pass = $_POST['pass'];
+}
+do {
+  $id = md5(microtime().$_SERVER['REMOTE_ADDR']);
+} while (isset($_SESSION[$id]));
+$_SESSION[$id]["pass"] = $pass;
+?>
+
+<body>
 <div id="links">
 <a href="./">Home<span> Access the database of movies, actors and directors. Free to all!</span></a>
 <a href="admin.html">Administrator<span> Administrator access. Password required.</span></a>
@@ -22,7 +37,6 @@ Welcome to <em>uMovies</em>, your destination for information on
   <a href="actors.php" title="access actors information">actors</a>
    and <a href="directors.php" title="access directors information">directors</a>.
 <?php
-$pass = $_POST['pass'];
 @$moviesdb = new mysqli('localhost','uMoviesAdmin', $pass,'uMovies');
 @$moviesdb->set_charset("utf8");
 
@@ -33,9 +47,10 @@ if ($moviesdb->connect_errno) {
 else {
   echo '<h2 id="header">Administrator Menu</h2>';
   echo '<h3>Upload Data File</h3>';
-  echo '<form name = "form" action ="#" onsubmit="return checkFile();">';
+  echo '<form name = "form" action ="adminUpload.php" method = "post" onsubmit="return checkFile();">';
   echo '<table border = "0" cellpadding="1">';
-  echo '<tr><td><input type = "file" name="file"/></td></tr>';
+  echo '<input type="hidden" name="session-id" value="'.$id.'" />';
+  echo '<tr><td><input type = "file" accept = ".txt" name="file"/></td></tr>';
   echo '<tr><td><input type ="submit" value= "Upload" /></td></tr>';
   echo '</table>';
   echo '</form>';
@@ -45,11 +60,20 @@ else {
 ?>
 <script>
 function checkFile() {
-  if (document.forms["form"]["file"].value == "") {
+  var path = document.forms["form"]["file"].value;
+  var fileName = path.replace(/^.*\\/, "");
+  var ext = fileName.substring(fileName.lastIndexOf('.'));
+  if (fileName == "") {
     alert("A file must be chosen to upload");
     return false;
   }
-  return false;
+  else if (ext.toLowerCase() != ".txt") {
+    alert("File must be a .txt type");
+    return false;
+  }
+  else {
+    return confirm("Uploading data file " + fileName);
+  }
 }
 </script>
 </p>
