@@ -45,6 +45,6 @@ Files Specifics
 	- PHP file that handles data upload
 	- Displays the data uploaded
 	- Option to return to Admin Menu
- - adminDelete (NEEDS TO BE MADE)
+ - adminDelete (SHOULD BE DONE, PLEASE CHECK)
 	- PHP file that handles data deletion
 	- Option to return to Admin Menu
