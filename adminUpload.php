@@ -104,6 +104,7 @@ else {
       $rows = explode("\n", $fileContents);
       foreach($rows as $row => $data) {
         $row_data = explode("\t", $data);
+        $row_data[1] = utf8_encode($row_data[1]);
         switch ($row_data[0]) {
           case 'movie':
             $name = $row_data[1];
@@ -123,6 +124,7 @@ else {
 
             break;
           case 'director':
+            $row_data[2] = utf8_encode($row_data[2]);
             $name = $row_data[1];
             $movie = $row_data[2];
             $year = $row_data[3];
@@ -150,6 +152,8 @@ else {
             }
             break;
           case 'actor':
+            $row_data[2] = utf8_encode($row_data[2]);
+            $row_data[4] = utf8_encode($row_data[4]);
             $name = $row_data[1];
             $movie = $row_data[2];
             $year = $row_data[3];
@@ -181,6 +185,8 @@ else {
             }
             break;
           case 'actress':
+            $row_data[2] = utf8_encode($row_data[2]);
+            $row_data[4] = utf8_encode($row_data[4]);
             $name = $row_data[1];
             $movie = $row_data[2];
             $year = $row_data[3];
