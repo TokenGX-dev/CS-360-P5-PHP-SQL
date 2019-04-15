@@ -46,8 +46,8 @@ if ($moviesdb->connect_errno) {
     echo '<h3>Incorrect Password</h3>';
 }
 else {
-  echo '<h2 id="header">Administrator Access</h2>';
-  echo '<h3>Deleting Data </h3>';
+  echo '<h2 id="header">Administrator Menu</h2>';
+  echo '<h3>Deleting Information </h3>';
 
   $actorquery = "DELETE FROM `actors`";
   $actorqueryresult = $moviesdb->query($actorquery);
@@ -60,7 +60,12 @@ else {
   $performedinquery = "DELETE FROM `performed_in`";
   $performedinqueryresult = $moviesdb->query($performedinquery);
 
-  echo '<h3>Data Deleted!</h3>';
+  echo '<h3>All data deleted!</h3>';
+
+  echo '<form name = "form" action = "adminMenu.php" method = "post">';
+  echo '<input type="hidden" name="session-id" value="'.$id.'" />';
+  echo '<input type ="submit" value= "Back to Administration Menu" />';
+  echo '</form>';
 
 }
 ?>

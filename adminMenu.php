@@ -12,15 +12,24 @@
 if (!session_start()) {
   die("Could not start session");
 }
-if (!isset($_POST['pass'])) {
-  die("pass not received");
+if (!isset($_POST["session-id"])) {
+  if (!isset($_POST['pass'])) {
+    die("pass not received");
+  } else {
+    $pass = $_POST['pass'];
+  }
+  do {
+    $id = md5(microtime().$_SERVER['REMOTE_ADDR']);
+  } while (isset($_SESSION[$id]));
+  $_SESSION[$id]["pass"] = $pass;
 } else {
-  $pass = $_POST['pass'];
+  $id = $_POST["session-id"];
+  if (!isset($_SESSION[$id]["pass"])) {
+    die("password not read");
+  } else {
+    $pass = $_SESSION[$id]["pass"];
+  }
 }
-do {
-  $id = md5(microtime().$_SERVER['REMOTE_ADDR']);
-} while (isset($_SESSION[$id]));
-$_SESSION[$id]["pass"] = $pass;
 ?>
 
 <body>
@@ -47,20 +56,23 @@ if ($moviesdb->connect_errno) {
 else {
   echo '<h2 id="header">Administrator Menu</h2>';
   echo '<h3>Upload Data File</h3>';
-  echo '<form name = "form" action ="adminUpload.php" method = "post" onsubmit="return checkFile();">';
+  echo '<form enctype = "multipart/form-data" name = "form" action ="adminUpload.php" method = "post" onsubmit="return checkFile();">';
   echo '<table border = "0" cellpadding="1">';
   echo '<input type="hidden" name="session-id" value="'.$id.'" />';
-  echo '<tr><td><input type = "file" accept = ".txt" name="file"/></td></tr>';
+  echo '<tr><td><input type = "file" accept = ".txt" name="uploaded"/></td></tr>';
   echo '<tr><td><input type ="submit" value= "Upload" /></td></tr>';
   echo '</table>';
   echo '</form>';
   echo '<h3>Deleting Information</h3>';
-  echo '<button type="button" onclick="alert(\'Work in Progress\')">Delete All</button>';
+  echo '<form name = "form2" action = "adminDelete.php" method = "post" onsubmit="return deleteData();">';
+  echo '<input type="hidden" name="session-id" value="'.$id.'" />';
+  echo '<input type ="submit" value= "Delete All" />';
+  echo '</form>';
 }
 ?>
 <script>
 function checkFile() {
-  var path = document.forms["form"]["file"].value;
+  var path = document.forms["form"]["uploaded"].value;
   var fileName = path.replace(/^.*\\/, "");
   var ext = fileName.substring(fileName.lastIndexOf('.'));
   if (fileName == "") {
@@ -75,6 +87,11 @@ function checkFile() {
     return confirm("Uploading data file " + fileName);
   }
 }
+
+function deleteData() {
+  return confirm("All data will be deleted. Proceed?");
+}
+
 </script>
 </p>
 

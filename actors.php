@@ -35,11 +35,11 @@ if ($moviesdb->connect_errno) {
     echo '<h3>Database Access Error!</h3>';
 }
 else {
-    $select = 'select * from movies';
+    $select = 'select * from actors';
 
     switch (@$_GET['order']) {
         case 'name':
-        case 'year': $select .= ' order by '.$_GET['order'];
+        case 'gender': $select .= ' order by '.$_GET['order'];
     }
 
     $result = $moviesdb->query( $select );
@@ -48,12 +48,12 @@ else {
     echo "<table class=\"uMovies\">\n";
     echo "<tr>\n";
     echo "<th></th>";
-    echo "<th><a href=\"movies.php?order=name\" /> Name </a></th>";
-    echo "<th><a href=\"movies.php?order=year\" /> Release Year </a></th>";
+    echo "<th><a href=\"actors.php?order=name\" /> Name </a></th>";
+    echo "<th><a href=\"actors.php?order=gender\" /> Gender </a></th>";
     echo "<tr>\n";
     if ($rows == 0) {
         echo "<tr>\n";
-        echo "<td colspan=\"3\">No Movies to Display</td>";
+        echo "<td colspan=\"3\">No Actors to Display</td>";
         echo "</tr>\n";
     }
     else {
@@ -61,8 +61,8 @@ else {
             $row = $result->fetch_assoc();
             echo "<tr class=\"highlight\">";
             echo "<td>".($i+1)."</td>";
-            echo "<td><a href=\"movie.php?name=".$row['name']."\" />".$row['name']."</a></td>";
-            echo"<td>".$row['year']."</td>";
+            echo "<td><a href=\"actor.php?name=".$row['name']."\" />".$row['name']."</a></td>";
+            echo"<td>".$row['gender']."</td>";
             echo "</tr>\n";
         }
     }
